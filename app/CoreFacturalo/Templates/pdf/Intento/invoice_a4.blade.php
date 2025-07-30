@@ -154,7 +154,10 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
         <tr>
             <td width="120px">FECHA DE EMISIÓN</td>
             <td width="8px">:</td>
-            <td>{{$document->date_of_issue->format('Y-m-d')}} / {{ $document->time_of_issue }}</td>
+            <td>{{$document->date_of_issue->format('Y-m-d')}}</td>
+            <td width="120px">HORA DE EMISIÓN</td>
+            <td width="8px">:</td>
+            <td>{{ $document->time_of_issue }}</td>
 
             @if ($document->detraction)
 
@@ -163,13 +166,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
             <td>{{ $document->detraction->bank_account}}</td>
             @endif
         </tr>
-        @if($invoice)
-        <tr>
-            <td>FECHA VENC.</td>
-            <td width="8px">:</td>
-            <td>{{$invoice->date_of_due->format('Y-m-d')}}</td>
-        </tr>
-        @endif
+
 
         @if ($document->detraction)
         <td width="140px">B/S SUJETO A DETRACCIÓN</td>
@@ -1029,43 +1026,9 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
         <td style="border: 1px solid #000; padding: 4px;">{{ number_format($document->total, 2) }}</td>
     </tr>
 </table>
-    @php
-    $paymentCondition = \App\CoreFacturalo\Helpers\Template\TemplateHelper::getDocumentPaymentCondition($document);
-    @endphp
-    {{-- Condicion de pago  Crédito / Contado --}}
-    <table class="full-width">
-        <tr>
-            <td>
-                <strong>CONDICIÓN DE PAGO: {{ $paymentCondition }} </strong>
-            </td>
-        </tr>
-    </table>
-
-    @if($document->payment_method_type_id)
-    <table class="full-width">
-        <tr>
-            <td>
-                <strong>MÉTODO DE PAGO: </strong>{{ $document->payment_method_type->description }}
-            </td>
-        </tr>
-    </table>
-    @endif
 
     @if ($document->payment_condition_id === '01')
     @if($payments->count())
-    <table class="full-width">
-        <tr>
-            <td><strong>PAGOS:</strong></td>
-        </tr>
-        @php $payment = 0; @endphp
-        @foreach($payments as $row)
-        <tr>
-            <td>&#8226; {{ $row->payment_method_type->description }}
-                - {{ $row->reference ? $row->reference.' - ':'' }} {{ $document->currency_type->symbol }} {{ $row->payment + $row->change }}</td>
-        </tr>
-        @endforeach
-        </tr>
-    </table>
     @endif
     @else
     <table class="full-width">
@@ -1115,24 +1078,37 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
     </table>
     @endif
 
-    @if(isset($configurationInPdf) && $configurationInPdf->show_seller_in_pdf)
-    <br>
-    <table class="full-width">
-        <tr>
-            <td>
-                <strong>Vendedor:</strong>
-            </td>
-        </tr>
-        <tr>
-            @if ($document->seller)
-            <td>{{ $document->seller->name }}</td>
+<table style="width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid black; margin-top: 15px;">
+    <tr>      <td colspan="1" style="text-align: left; padding: 10px; border: 1px solid black; vertical-align: top;">
+            @if($company->logo)
+                <img src="data:image/png;base64, {{ $company->logo }}" style="max-height: 80px;">
             @else
-            <td>{{ $document->user->name }}</td>
+                <strong>{{ $company->name }}</strong>
             @endif
-        </tr>
-    </table>
-    @endif
+        </td>
 
+
+<td colspan="3" style="padding: 10px; border: 1px solid black;">
+                <strong>Representación impresa de</strong><br>
+
+<h5 style="margin: 5px 0;">{{ $document->document_type->description }}</h5>
+            Puede consultarlo y/o descargarlo desde:<br>
+            <a href="http://gasu.pro7.test/documents" target="_blank">
+                http://gasu.pro7.test/documents
+            </a>
+                    <br>
+<strong>Cuentas Bancarias:</strong><br>
+            BCP - Banco de Crédito del Perú: 123456789012<br>
+            BBVA - Banco Continental: 987654321098<br>
+            Interbank: 112233445566<br>
+            Scotiabank: 665544332211
+        </td>
+        <td colspan="2" style="text-align: center; padding: 10px; border: 1px solid black; vertical-align: top;">
+            <strong>Administración</strong><br><br><br>
+            <hr style="width: 200px; border: none; border-top: 1px solid black;">
+            <span style="font-size: 11px;">Cancelado</span>
+        </td></tr>
+</table>
     {{-- @php
  dd($document);
 @endphp --}}
