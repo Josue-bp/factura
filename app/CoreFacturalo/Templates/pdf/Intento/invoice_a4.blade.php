@@ -73,7 +73,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                             alt="{{ $company->name }}" class="company_logo" style="max-width: 150px;">
                     </div>
                 </td>
-                <td width="50%" class="pl-3 text-center">
+                <td width="50%" class="pl-3 text-center" >
                     <div>
                         <h4>{{ $company->name }}</h4>
                         <h5>{{ 'RUC '.$company->number }}</h5>
@@ -96,7 +96,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                         @endisset
                     </div>
                 </td>
-                <td width="30%" class="border-box py-4 px-2 text-center">
+                <td width="30%" class="border-box py-4 px-2 text-center" style="background-color:#F7E860">
                     <h3 class="font-bold">{{ 'RUC:'.$company->number }}</h3>
                     <h5>{{ $document->document_type->description }}</h5>
                     <h3>{{ $document_number }}</h3>
@@ -564,7 +564,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
     {{-- Condicion de pago  Crédito / Contado --}}
 <table style="width: 100%; border: 1px solid black; border-collapse: collapse; margin-top: 10px;">  
     <!-- Subtítulos -->
-    <tr>
+    <tr style="background-color:#89DA59">
         <td style="border: 1px solid black; padding: 6px;"><strong>Condición de pago</strong></td>
         <td style="border: 1px solid black; padding: 6px;"><strong>Vencimiento</strong></td>
         <td style="border: 1px solid black; padding: 6px;"><strong>Vendedor</strong></td>
@@ -1000,14 +1000,11 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                 @endif
                 @endif
             </td>
-            <td width="35%" class="text-right">
-                <img src="data:image/png;base64, {{ $document->qr }}" style="margin-right: -10px;" />
-                <p style="font-size: 9px">Código Hash: {{ $document->hash }}</p>
-            </td>
+
         </tr>
     </table>
 <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; text-align: center;">
-    <tr>
+    <tr style="background-color:#89DA59">
         <th style="border: 1px solid #000; padding: 4px;">SUB TOTAL</th>
         <th style="border: 1px solid #000; padding: 4px;">OP. GRAVADA</th>
         <th style="border: 1px solid #000; padding: 4px;">OP. EXONERADA</th>
@@ -1079,13 +1076,11 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
     @endif
 
 <table style="width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid black; margin-top: 15px;">
-    <tr>      <td colspan="1" style="text-align: left; padding: 10px; border: 1px solid black; vertical-align: top;">
-            @if($company->logo)
-                <img src="data:image/png;base64, {{ $company->logo }}" style="max-height: 80px;">
-            @else
-                <strong>{{ $company->name }}</strong>
-            @endif
-        </td>
+    <tr>
+        <td width="35%">
+                <img src="data:image/png;base64, {{ $document->qr }}" />
+                <p style="font-size: 9px">Código Hash: {{ $document->hash }}</p>
+            </td>
 
 
 <td colspan="3" style="padding: 10px; border: 1px solid black;">
@@ -1105,6 +1100,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
         </td>
         <td colspan="2" style="text-align: center; padding: 10px; border: 1px solid black; vertical-align: top;">
             <strong>Administración</strong><br><br><br>
+            <br><br><br><br>
             <hr style="width: 200px; border: none; border-top: 1px solid black;">
             <span style="font-size: 11px;">Cancelado</span>
         </td></tr>
