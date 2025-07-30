@@ -594,7 +594,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
     <table class="full-width mt-10 mb-10">
         <thead class="">
             <tr class="bg-grey">
-                <th class="border-top-bottom text-center py-2" width="8%">COD.</th>
+                <th class="border-top-bottom text-center py-2" width="8%">CODIGO</th>
                 <th class="border-top-bottom text-center py-2" width="8%">CANT.</th>
                 <th class="border-top-bottom text-center py-2" width="8%">UNIDAD</th>
                 <th class="border-top-bottom text-left py-2 px-1">DESCRIPCIÓN</th>
@@ -1009,6 +1009,26 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
             </td>
         </tr>
     </table>
+<table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; text-align: center;">
+    <tr>
+        <th style="border: 1px solid #000; padding: 4px;">SUB TOTAL</th>
+        <th style="border: 1px solid #000; padding: 4px;">OP. GRAVADA</th>
+        <th style="border: 1px solid #000; padding: 4px;">OP. EXONERADA</th>
+        <th style="border: 1px solid #000; padding: 4px;">OP. INAFECTA</th>
+        <th style="border: 1px solid #000; padding: 4px;">OP. GRATUITA</th>
+        <th style="border: 1px solid #000; padding: 4px;">IGV</th>
+        <th style="border: 1px solid #000; padding: 4px;">IMPORTE TOTAL</th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #000; padding: 4px;">{{ number_format($document->total_value, 2) }}</td>
+        <td style="border: 1px solid #000; padding: 4px;">{{ number_format($document->total_taxed, 2) }}</td>
+        <td style="border: 1px solid #000; padding: 4px;">{{ number_format($document->total_exonerated, 2) }}</td>
+        <td style="border: 1px solid #000; padding: 4px;">{{ number_format($document->total_unaffected, 2) }}</td>
+        <td style="border: 1px solid #000; padding: 4px;">{{ number_format($document->total_free, 2) }}</td>
+        <td style="border: 1px solid #000; padding: 4px;">{{ number_format($document->total_igv, 2) }}</td>
+        <td style="border: 1px solid #000; padding: 4px;">{{ number_format($document->total, 2) }}</td>
+    </tr>
+</table>
     @php
     $paymentCondition = \App\CoreFacturalo\Helpers\Template\TemplateHelper::getDocumentPaymentCondition($document);
     @endphp
