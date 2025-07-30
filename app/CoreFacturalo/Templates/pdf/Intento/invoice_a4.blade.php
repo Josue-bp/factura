@@ -47,13 +47,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
 
 <body>
     @if ($type->soap_type_id === '01')
-    <table class="full-width">
-        <tr>
-            <td style="width: 100%;text-align: center">
-                <span style="color: red; font-weight: bold; font-size: 1.6rem;">Esta factura es solo de prueba</span>
-            </td>
-        </tr>
-    </table>
+
     @endif
     @if($document->state_type->id == '11') 
     <div class="company_logo_box" style="position: absolute; text-align: center; top:30%;">
@@ -103,7 +97,7 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
                     </div>
                 </td>
                 <td width="30%" class="border-box py-4 px-2 text-center">
-                    <h3 class="font-bold">{{ 'R.U.C. '.$company->number }}</h3>
+                    <h3 class="font-bold">{{ 'RUC:'.$company->number }}</h3>
                     <h5>{{ $document->document_type->description }}</h5>
                     <h3>{{ $document_number }}</h3>
                 </td>
@@ -139,6 +133,23 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
             @endif
         </tr>
     </table>
+  <table style="width: 100%;margin-top: 10px;">
+    <tr>
+        <!-- Sucursal -->
+        <td style="padding: 6px; width: 20%;"><strong>Sucursal</strong></td>
+        <td style="padding: 6px; width: 55%;">
+            {{ ($establishment->address !== '-') ? $establishment->address : '' }}
+            {{ ($establishment->district_id !== '-') ? ', '.$establishment->district->description : '' }}
+            {{ ($establishment->province_id !== '-') ? ', '.$establishment->province->description : '' }}
+            {{ ($establishment->department_id !== '-') ? '- '.$establishment->department->description : '' }}
+        </td>
+        <td style="6px; width: 10%;"><strong>Teléfono</strong></td>
+        <td style="6px; width: 15%;">
+            {{ $establishment->telephone !== '-' ? $establishment->telephone : 'Sin número' }}
+        </td>
+    </tr>
+</table>
+
     <table class="full-width mt-5">
         <tr>
             <td width="120px">FECHA DE EMISIÓN</td>
@@ -550,7 +561,36 @@ $type = App\CoreFacturalo\Helpers\Template\TemplateHelper::getTypeSoap();
         if ($showModelColumn && $showBrandColumn) break;
     }
     @endphp
-
+    @php
+    $paymentCondition = \App\CoreFacturalo\Helpers\Template\TemplateHelper::getDocumentPaymentCondition($document);
+    @endphp
+    {{-- Condicion de pago  Crédito / Contado --}}
+<table style="width: 100%; border: 1px solid black; border-collapse: collapse; margin-top: 10px;">  
+    <!-- Subtítulos -->
+    <tr>
+        <td style="border: 1px solid black; padding: 6px;"><strong>Condición de pago</strong></td>
+        <td style="border: 1px solid black; padding: 6px;"><strong>Vencimiento</strong></td>
+        <td style="border: 1px solid black; padding: 6px;"><strong>Vendedor</strong></td>
+    </tr>
+    <!-- Valores -->
+    <tr>
+        <td style="border: 1px solid black; padding: 6px;">
+            {{ $paymentCondition }}
+        </td>
+        <td style="border: 1px solid black; padding: 6px;">
+            {{ isset($invoice) && $invoice->date_of_due ? $invoice->date_of_due->format('Y-m-d') : 'No aplica' }}
+        </td>
+        <td style="border: 1px solid black; padding: 6px;">
+            @if (isset($document->seller) && $document->seller)
+                {{ $document->seller->name }}
+            @elseif (isset($document->user))
+                {{ $document->user->name }}
+            @else
+                No disponible
+            @endif
+        </td>
+    </tr>
+</table>
     <table class="full-width mt-10 mb-10">
         <thead class="">
             <tr class="bg-grey">
